@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import { Home, About, Login } from './pages';
+
+import component from './components';
+import pages from './pages';
+
 import { UserProvider } from './context/UserContext';
 
 const App: React.FC = () => {
@@ -9,11 +11,11 @@ const App: React.FC = () => {
 
   return (
     <div>
-      {location.pathname !== '/' && <Navbar />}
+      {location.pathname !== '/' && <component.component.Navbar />}
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/" element={<pages.page.login />} />
+        <Route path="/home" element={<pages.page.home />} />
+        <Route path="/about" element={<pages.page.about />} />
       </Routes>
     </div>
   );

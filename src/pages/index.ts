@@ -1,3 +1,15 @@
-export { default as Home } from './Home';
-export { default as About } from './About';
-export { default as Login } from '../components/Login';
+
+import Home from './Home';
+import About from './About';
+import Login from './Login';
+
+
+const pages = {
+  page: {
+    home: Home,
+    about: About,
+    login: Login
+  }
+};
+
+export default pages;
