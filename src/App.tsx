@@ -16,6 +16,8 @@ const App: React.FC = () => {
         <Route path="/RegisterForm" element={<pages.page.RegisterForm />} />
         <Route path="/home" element={<pages.page.home />} />
         <Route path="/about" element={<pages.page.about />} />
+        <Route path="/errorpage" element={<pages.page.ErrorPage />} />
+
       </Routes>
     </div>
   );

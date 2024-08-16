@@ -1,35 +1,29 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { handleSubmit } from '../utils/formHandlers';
 
 const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [nohp, setNohp] = useState('');
+  const [umur, setUmur] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const userData = { username, email, nohp,umur, password };
+    localStorage.setItem('userData', JSON.stringify(userData));
+
+    navigate('/');
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-md rounded px-8 py-6 w-full max-w-sm">
         <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
-
-        <form
-          onSubmit={(e) =>
-            handleSubmit(
-              e,
-              username,
-              email,
-              nohp,
-              password,
-              setUsername,
-              setEmail,
-              setNohp,
-              setPassword
-            )
-          }
-        >
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-gray-700">Username</label>
             <input
@@ -67,6 +61,18 @@ const RegisterForm: React.FC = () => {
           </div>
 
           <div className="mb-4">
+            <label htmlFor="umur" className="block text-gray-700">Umur</label>
+            <input
+              id="umur"
+              type="umur"
+              value={umur}
+              onChange={(e) => setUmur(e.target.value)}
+              className="mt-1 p-2 w-full border border-gray-300 rounded"
+              required
+            />
+          </div>
+
+          <div className="mb-4">
             <label htmlFor="password" className="block text-gray-700">Password</label>
             <input
               id="password"
@@ -78,9 +84,9 @@ const RegisterForm: React.FC = () => {
             />
           </div>
 
+
           <button
             type="submit"
-            onClick={() => navigate('/')}
             className="bg-blue-500 text-white p-2 rounded mt-4 w-full hover:bg-blue-600"
           >
             Register

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import users from '../data/users';
 import { useUser } from '../context/UserContext';
 
 const Login: React.FC = () => {
@@ -12,17 +11,27 @@ const Login: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    const user = users.find((u) => u.username === username && u.password === password);
-    if (user) {
-      setUser({ username: user.username, email: user.email }); 
-      navigate('/home');
+
+    const storedUserData = localStorage.getItem('userData');
+
+    if (storedUserData) {
+      const user = JSON.parse(storedUserData);
+
+      if (user.username === username && user.password === password) {
+        setUser({ username: user.username, email: user.email, nohp: user.nohp, umur: user.umur });
+        navigate('/home'); // Redirect ke halaman home setelah login
+      } else {
+        setError('Invalid username or password');
+      }
     } else {
-      setError('Invalid username or password');
+      setError('No registered user found.');
     }
   };
 
   return (
+
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      
       <div className="bg-white shadow-md rounded px-8 py-6 w-full max-w-sm">
         <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -47,7 +56,7 @@ const Login: React.FC = () => {
               required
             />
           </div>
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4 w-full hover:bg-blue-600">
+          <button type="submit" className="bg-sky-500 text-white p-2 rounded mt-4 w-full hover:bg-sky-700">
             <h1 className="text-center">Login</h1>
           </button>
         </form>
@@ -57,6 +66,7 @@ const Login: React.FC = () => {
         </div>
       </div>
     </div>
+
   );
 };
 

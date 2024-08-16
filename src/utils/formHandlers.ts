@@ -22,7 +22,6 @@ export const handleSubmit = (
     return;
   }
 
-  // Simpan data ke localStorage
   const userData = {
     username,
     email,
