@@ -1,15 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
+// store.ts
+import { createStore, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import userReducer from './userSlice'; // Sesuaikan path sesuai dengan struktur direktori
 
-const store = configureStore({
-  reducer: {
-    form: formReducer,
-    user: userReducer,
-  },
+const rootReducer = combineReducers({
+  form: formReducer,
+  // Tambahkan reducers lain jika ada
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+const store = createStore(rootReducer);
 
 export default store;

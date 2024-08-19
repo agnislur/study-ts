@@ -1,7 +1,7 @@
 import React from 'react';
 import { reduxForm, Field, InjectedFormProps } from 'redux-form';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { onSubmit } from '../utils/loginUtils'; // Import fungsi utilitas
 
 interface LoginFormValues {
@@ -10,7 +10,7 @@ interface LoginFormValues {
 }
 
 // Komponen LoginForm
-const LoginForm: React.FC<InjectedFormProps<LoginFormValues>> = ({ handleSubmit }) => {
+const Login: React.FC<InjectedFormProps<LoginFormValues>> = ({ handleSubmit }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -52,4 +52,4 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormValues>> = ({ handleSubmit 
   );
 };
 
-export default reduxForm<LoginFormValues>({ form: 'login' })(LoginForm);
+export default reduxForm<LoginFormValues>({ form: 'login' })(Login);
