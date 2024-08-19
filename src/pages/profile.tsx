@@ -85,7 +85,7 @@ const Profile: React.FC = () => {
                 <div>
                   <label className="block text-gray-700">No Handphone:</label>
                   <input
-                    type="text"
+                    type="number"
                     name="nohp"
                     value={formData.nohp}
                     onChange={handleInputChange}
