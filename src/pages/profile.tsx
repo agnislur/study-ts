@@ -8,8 +8,8 @@ const Profile: React.FC = () => {
     username: user?.username || '',
     email: user?.email || '',
     nohp: user?.nohp || 0,  
-    umur: user?.umur || '',
-  });
+    umur: user?.umur || 0, 
+});
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
