@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import { UserProvider } from './context/UserContext';
 
 import component from './components';
-import pages from './pages';
+import { Home, Login, RegisterForm, ErrorPage, Profile, About } from './pages';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -12,15 +12,14 @@ const App: React.FC = () => {
     <div>
       {location.pathname !== '/RegisterForm' && location.pathname !== '/' && <component.component.Navbar />}
       <Routes>
-        <Route path="/" element={<pages.page.login />} />
-        <Route path="/RegisterForm" element={<pages.page.RegisterForm />} />
-        <Route path="/home" element={<pages.page.home />} />
-        <Route path="/about" element={<pages.page.about />} />
-        <Route path="/errorpage" element={<pages.page.ErrorPage />} />
-        <Route path="/profile" element={<pages.page.Profile />} />
-
-
+        <Route path="/" element={<Login />} />
+        <Route path="/RegisterForm" element={<RegisterForm />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/errorpage" element={<ErrorPage />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
+
     </div>
   );
 };

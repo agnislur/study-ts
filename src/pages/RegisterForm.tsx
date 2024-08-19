@@ -1,107 +1,98 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { reduxForm, Field, InjectedFormProps } from 'redux-form';
 
-const RegisterForm: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [nohp, setNohp] = useState('');
-  const [umur, setUmur] = useState('');
-  const [password, setPassword] = useState('');
+interface RegisterFormValues {
+  username: string;
+  email: string;
+  nohp: string;
+  umur: string;
+  password: string;
+}
 
+const RegisterForm: React.FC<InjectedFormProps<RegisterFormValues>> = ({ handleSubmit }) => {
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const userData = { username, email, nohp,umur, password };
+  const onSubmit = (values: RegisterFormValues) => {
+    const userData = { ...values, nohp: Number(values.nohp), umur: Number(values.umur) };
     localStorage.setItem('userData', JSON.stringify(userData));
-
     navigate('/');
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-md rounded px-8 py-6 w-full max-w-sm">
-        <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
-        <form onSubmit={handleSubmit}>
+        <h1 className="text-2xl font-bold mb-4 text-center">Daftar</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-gray-700">Username</label>
-            <input
+            <Field
               id="username"
+              name="username"
+              component="input"
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
               className="mt-1 p-2 w-full border border-gray-300 rounded"
               required
             />
           </div>
-
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700">Email</label>
-            <input
+            <Field
               id="email"
+              name="email"
+              component="input"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="mt-1 p-2 w-full border border-gray-300 rounded"
               required
             />
           </div>
-
           <div className="mb-4">
             <label htmlFor="nohp" className="block text-gray-700">No HP</label>
-            <input
+            <Field
               id="nohp"
+              name="nohp"
+              component="input"
               type="text"
-              value={nohp}
-              onChange={(e) => setNohp(e.target.value)}
               className="mt-1 p-2 w-full border border-gray-300 rounded"
               required
             />
           </div>
-
           <div className="mb-4">
             <label htmlFor="umur" className="block text-gray-700">Umur</label>
-            <input
+            <Field
               id="umur"
-              type="umur"
-              value={umur}
-              onChange={(e) => setUmur(e.target.value)}
+              name="umur"
+              component="input"
+              type="text"
               className="mt-1 p-2 w-full border border-gray-300 rounded"
               required
             />
           </div>
-
           <div className="mb-4">
             <label htmlFor="password" className="block text-gray-700">Password</label>
-            <input
+            <Field
               id="password"
+              name="password"
+              component="input"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               className="mt-1 p-2 w-full border border-gray-300 rounded"
               required
             />
           </div>
-
-
           <button
             type="submit"
             className="bg-blue-500 text-white p-2 rounded mt-4 w-full hover:bg-blue-600"
           >
-            Register
+            Daftar
           </button>
         </form>
-
         <div className="text-center mt-4">
-          <span>Already have an account? </span>
-          <Link to="/" className="text-blue-500 hover:underline">
-            Login
-          </Link>
+          <span>Sudah punya akun? </span>
+          <Link to="/" className="text-blue-500 hover:underline">Login</Link>
         </div>
       </div>
     </div>
   );
 };
 
-export default RegisterForm;
+export default reduxForm<RegisterFormValues>({ form: 'register' })(RegisterForm);

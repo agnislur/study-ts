@@ -1,3 +1,4 @@
+// src/context/UserContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface User {
@@ -5,7 +6,6 @@ interface User {
   email: string;
   nohp: number | string;
   umur: number;
-  
 }
 
 interface UserContextType {
@@ -32,5 +32,3 @@ export const useUser = () => {
   }
   return context;
 };
-
-

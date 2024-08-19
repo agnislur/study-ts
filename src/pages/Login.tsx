@@ -1,57 +1,40 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useUser } from '../context/UserContext';
+import React from 'react';
+import { reduxForm, Field, InjectedFormProps } from 'redux-form';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { onSubmit } from '../utils/loginUtils'; // Import fungsi utilitas
 
-const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+interface LoginFormValues {
+  username: string;
+  password: string;
+}
+
+// Komponen LoginForm
+const LoginForm: React.FC<InjectedFormProps<LoginFormValues>> = ({ handleSubmit }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { setUser } = useUser();
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const storedUserData = localStorage.getItem('userData');
-
-    if (storedUserData) {
-      const user = JSON.parse(storedUserData);
-
-      if (user.username === username && user.password === password) {
-        setUser({ username: user.username, email: user.email, nohp: user.nohp, umur: user.umur });
-        navigate('/home'); // Redirect ke halaman home setelah login
-      } else {
-        setError('Invalid username or password');
-      }
-    } else {
-      setError('No registered user found.');
-    }
-  };
 
   return (
-
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      
       <div className="bg-white shadow-md rounded px-8 py-6 w-full max-w-sm">
         <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit(values => onSubmit(values, dispatch, navigate))}>
           <div className="mb-4">
             <label className="block text-gray-700">Username:</label>
-            <input
+            <Field
+              name="username"
+              component="input"
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
               className="mt-1 p-2 w-full border border-gray-300 rounded"
               required
             />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Password:</label>
-            <input
+            <Field
+              name="password"
+              component="input"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               className="mt-1 p-2 w-full border border-gray-300 rounded"
               required
             />
@@ -61,13 +44,12 @@ const Login: React.FC = () => {
           </button>
         </form>
         <div className="text-center mt-4">
-          <span>Don't have an account? </span>
-          <Link to="/RegisterForm" className="text-blue-500 hover:underline">Register</Link>
+          <span>Belum punya akun? </span>
+          <Link to="/RegisterForm" className="text-blue-500 hover:underline">Daftar</Link>
         </div>
       </div>
     </div>
-
   );
 };
 
-export default Login;
+export default reduxForm<LoginFormValues>({ form: 'login' })(LoginForm);

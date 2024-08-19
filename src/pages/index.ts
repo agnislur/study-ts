@@ -1,22 +1,6 @@
-
-import Home from './Home';
-import About from './About';
-import Login from './Login';
-import RegisterForm from './RegisterForm';
-import ErrorPage from './errorpage';
-import Profile from './profile';
- 
-
-
-const pages = {
-  page: {
-    home: Home,
-    about: About,
-    login: Login,
-    RegisterForm: RegisterForm,
-    ErrorPage: ErrorPage,
-    Profile: Profile
-  }
-};
-
-export default pages;
+export { default as Home } from './Home';
+export { default as About } from './About';
+export { default as Login } from './Login';
+export { default as RegisterForm } from './RegisterForm';
+export { default as ErrorPage } from './errorpage';
+export { default as Profile } from './profile';
