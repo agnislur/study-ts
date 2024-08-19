@@ -7,7 +7,7 @@ const Profile: React.FC = () => {
   const [formData, setFormData] = useState({
     username: user?.username || '',
     email: user?.email || '',
-    nohp: user?.nohp || '',
+    nohp: user?.nohp || 0,  
     umur: user?.umur || '',
   });
 
