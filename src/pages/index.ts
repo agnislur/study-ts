@@ -4,6 +4,7 @@ import About from './About';
 import Login from './Login';
 import RegisterForm from './RegisterForm';
 import ErrorPage from './errorpage';
+import Profile from './profile';
  
 
 
@@ -13,7 +14,8 @@ const pages = {
     about: About,
     login: Login,
     RegisterForm: RegisterForm,
-    ErrorPage: ErrorPage
+    ErrorPage: ErrorPage,
+    Profile: Profile
   }
 };
 
