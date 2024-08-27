@@ -1,10 +1,7 @@
-
+import AddWork from './tiket/addWork';
 import Navbar from './navbar';
 
-const components = {
-  component: {
-    Navbar: Navbar,
-  }
-};
-
-export default components;
+export {
+    AddWork,
+    Navbar
+  };

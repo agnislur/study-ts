@@ -1,15 +1,34 @@
-import React, { useState } from 'react';
-import { useUser } from '../../context';
+import React, { useEffect, useState } from 'react';
+// import {  useSelector } from 'react-redux';
+import { 
+  RootState,
+  useAppDispatch,
+  useAppSelector
+} from '../../store/store';
+
+import { 
+  fetchUser,
+  saveUser
+} from '../../store/features/user/userThunk';
+
+import { User } from '../../store/features/user/userTypes'
 
 const Profile: React.FC = () => {
-  const { user, setUser } = useUser();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state: RootState) => state.user.users[0]); // Mengambil data pengguna dari state
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<User>({
+    id: user?.id || 0, 
     username: user?.username || '',
     email: user?.email || '',
-    nohp: user?.nohp || 0,  
-    umur: user?.umur || 0, 
-});
+    nohp: user?.nohp || '',
+    umur: user?.umur || '',
+    password: '' 
+  });
+  
+  useEffect(() => {
+    (fetchUser());
+  }, [dispatch]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,36 +37,36 @@ const Profile: React.FC = () => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setUser(formData);
+    dispatch(saveUser(formData));
     setIsEditing(false);
   };
 
   return (
-    <div className="container mx-auto p-6 bg-white-100 rounded-lg ">
+    <div className="container mx-auto p-6 bg-white-100 rounded-lg">
       <h1 className="text-3xl font-bold text-center mb-6">User Profile</h1>
       {user ? (
         <div className="bg-white p-6 rounded-lg shadow-md">
           {!isEditing ? (
             <div className="space-y-4">
               <div className="text-center">
-                <p className="text-lg font-semibold text-gray-800">Welcome, {user.username}!</p>
+                <p className="text-lg font-semibold text-gray-800">Welcome, {formData.username}!</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <p className="text-gray-600">Username:</p>
-                  <p className="text-xl font-medium text-gray-800">{user.username}</p>
+                  <p className="text-xl font-medium text-gray-800">{formData.username}</p>
                 </div>
                 <div>
                   <p className="text-gray-600">Email:</p>
-                  <p className="text-xl font-medium text-gray-800">{user.email}</p>
+                  <p className="text-xl font-medium text-gray-800">{formData.email}</p>
                 </div>
                 <div>
                   <p className="text-gray-600">No Handphone:</p>
-                  <p className="text-xl font-medium text-gray-800">{user.nohp}</p>
+                  <p className="text-xl font-medium text-gray-800">{formData.nohp}</p>
                 </div>
                 <div>
                   <p className="text-gray-600">Umur:</p>
-                  <p className="text-xl font-medium text-gray-800">{user.umur}</p>
+                  <p className="text-xl font-medium text-gray-800">{formData.umur}</p>
                 </div>
               </div>
               <div className="text-center mt-6">

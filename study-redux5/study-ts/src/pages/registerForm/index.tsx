@@ -1,20 +1,33 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { addUser } from '../../store/features/user/userSlice';
+import { useAppDispatch } from '../../store';
+import { User } from '../../store/features/user/userTypes'; 
 
-const RegisterForm: React.FC = () => {
+const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [nohp, setNohp] = useState('');
   const [umur, setUmur] = useState('');
   const [password, setPassword] = useState('');
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const userData = { username, email, nohp,umur, password };
+    const userData: User = { 
+      id: Date.now(), 
+      username, 
+      email, 
+      nohp, 
+      umur, 
+      password 
+    };
     localStorage.setItem('userData', JSON.stringify(userData));
+
+    // Mengirimkan data pengguna ke Redux store
+    dispatch(addUser(userData));
 
     navigate('/');
   };
@@ -22,7 +35,7 @@ const RegisterForm: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-md rounded px-8 py-6 w-full max-w-sm">
-        <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Daftar Akun Baru</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-gray-700">Username</label>
@@ -64,7 +77,7 @@ const RegisterForm: React.FC = () => {
             <label htmlFor="umur" className="block text-gray-700">Umur</label>
             <input
               id="umur"
-              type="umur"
+              type="text" // Ganti dengan "text" jika "umur" bukan tipe data valid untuk input type
               value={umur}
               onChange={(e) => setUmur(e.target.value)}
               className="mt-1 p-2 w-full border border-gray-300 rounded"
@@ -83,7 +96,6 @@ const RegisterForm: React.FC = () => {
               required
             />
           </div>
-
 
           <button
             type="submit"
